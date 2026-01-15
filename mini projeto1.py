@@ -29,9 +29,9 @@ class AcronymGenerator:
 
 
 def main():
-    print("=" * 40)
+    print("=" * 50)
     print("           ACRONYM GENERATOR")
-    print("=" * 40)
+    print("=" * 50)
 
     while True:
         try:
