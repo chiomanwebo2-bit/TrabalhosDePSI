@@ -1,56 +1,69 @@
-# ============================================================
-# ACRONYM GENERATOR
-# ============================================================
-import re
+# ==========================================
+# PSI Mini Project 1
+# Acronym Generator
+# ==========================================
 
-class AcronymGenerator:
+from datetime import datetime
+
+
+def generate_acronym(phrase):
     """
-    A class that generates acronyms from user-input phrases.
-    It handles validation, formatting, and advanced string processing.
+    Generates an acronym from a given phrase.
     """
+    words = phrase.split()
+    acronym = ""
 
-    def __init__(self, phrase):
-        self.phrase = phrase
+    for word in words:
+        if word.isalpha():
+            acronym += word[0]
 
-    def validate_input(self):
-        """
-        Validates that the input is not empty and contains alphabetic characters.
-        """
-        if not self.phrase or not re.search(r"[A-Za-z]", self.phrase):
-            raise ValueError("Invalid input: Please enter a valid phrase.")
+    return acronym.upper()
 
-    def generate(self):
-        """
-        Generates an acronym by extracting the first letter of each word.
-        """
-        words = re.findall(r"[A-Za-z]+", self.phrase)
-        acronym = ''.join(word[0] for word in words)
-        return acronym.upper()
+
+def show_menu():
+    print("\n====== ACRONYM GENERATOR ======")
+    print("1. Generate Acronym")
+    print("2. View History")
+    print("3. Exit")
+    print("===============================")
 
 
 def main():
-    print("=" * 50)
-    print("           ACRONYM GENERATOR")
-    print("=" * 50)
+    history = []
 
     while True:
-        try:
-            user_input = input("Enter a word or phrase: ").strip()
+        show_menu()
+        choice = input("Choose an option (1-3): ").strip()
 
-            generator = AcronymGenerator(user_input)
-            generator.validate_input()
+        if choice == "1":
+            phrase = input("Enter a phrase: ").strip()
 
-            result = generator.generate()
-            print("\nGenerated Acronym:", result)
+            if not phrase:
+                print("Input cannot be empty.")
+                continue
+
+            acronym = generate_acronym(phrase)
+            time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            history.append((phrase, acronym, time))
+            print("Generated Acronym:", acronym)
+
+        elif choice == "2":
+            if not history:
+                print("No history available.")
+            else:
+                print("\n--- HISTORY ---")
+                for i, item in enumerate(history, start=1):
+                    print(f"{i}. {item[0]} → {item[1]} ({item[2]})")
+
+
+        elif choice == "3":
+            print("Program ended.")
             break
 
-        except ValueError as error:
-            print("Error:", error)
-            print("Please try again.\n")
+        else:
+            print("Invalid option. Try again.")
 
 
-# Program entry point
 if __name__ == "__main__":
     main()
-
-
